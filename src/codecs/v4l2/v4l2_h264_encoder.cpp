@@ -27,22 +27,22 @@ int32_t V4L2H264Encoder::InitEncode(const webrtc::VideoCodec *codec_settings,
     encoded_image_.content_type_ = webrtc::VideoContentType::UNSPECIFIED;
 
     if (codec_.codecType != webrtc::kVideoCodecH264) {
-        return webrtc::kVideoCodecError;
+        return WEBRTC_VIDEO_CODEC_ERROR;
     }
 
     encoder_ = V4L2Encoder::Create(width_, height_, is_dma_);
 
-    return webrtc::kVideoCodecOk;
+    return WEBRTC_VIDEO_CODEC_OK;
 }
 
 int32_t V4L2H264Encoder::RegisterEncodeCompleteCallback(webrtc::EncodedImageCallback *callback) {
     callback_ = callback;
-    return webrtc::kVideoCodecOk;
+    return WEBRTC_VIDEO_CODEC_OK;
 }
 
 int32_t V4L2H264Encoder::Release() {
     encoder_.reset();
-    return webrtc::kVideoCodecOk;
+    return WEBRTC_VIDEO_CODEC_OK;
 }
 
 int32_t V4L2H264Encoder::Encode(const webrtc::VideoFrame &frame,
@@ -51,7 +51,7 @@ int32_t V4L2H264Encoder::Encode(const webrtc::VideoFrame &frame,
         if ((*frame_types)[0] == webrtc::VideoFrameType::kVideoFrameKey) {
             V4L2Util::SetExtCtrl(encoder_->GetFd(), V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME, 1);
         } else if ((*frame_types)[0] == webrtc::VideoFrameType::kEmptyFrame) {
-            return webrtc::kVideoCodecOk;
+            return WEBRTC_VIDEO_CODEC_OK;
         }
     }
 
@@ -75,7 +75,7 @@ int32_t V4L2H264Encoder::Encode(const webrtc::VideoFrame &frame,
         SendFrame(frame, encoded_buffer);
     });
 
-    return webrtc::kVideoCodecOk;
+    return WEBRTC_VIDEO_CODEC_OK;
 }
 
 void V4L2H264Encoder::SetRates(const RateControlParameters &parameters) {
