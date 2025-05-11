@@ -1,6 +1,10 @@
 #include "codecs/v4l2/v4l2_h264_encoder.h"
 #include "common/logging.h"
 #include "common/v4l2_frame_buffer.h"
+#include "api/video_codecs/video_codec.h"
+#include "api/video_codecs/video_encoder.h"
+#include "api/video/encoded_image.h"
+#include "api/video/video_frame.h"
 
 std::unique_ptr<webrtc::VideoEncoder> V4L2H264Encoder::Create(Args args) {
     return std::make_unique<V4L2H264Encoder>(args);
@@ -23,22 +27,22 @@ int32_t V4L2H264Encoder::InitEncode(const webrtc::VideoCodec *codec_settings,
     encoded_image_.content_type_ = webrtc::VideoContentType::UNSPECIFIED;
 
     if (codec_.codecType != webrtc::kVideoCodecH264) {
-        return WEBRTC_VIDEO_CODEC_ERROR;
+        return webrtc::kVideoCodecError;
     }
 
     encoder_ = V4L2Encoder::Create(width_, height_, is_dma_);
 
-    return WEBRTC_VIDEO_CODEC_OK;
+    return webrtc::kVideoCodecOk;
 }
 
 int32_t V4L2H264Encoder::RegisterEncodeCompleteCallback(webrtc::EncodedImageCallback *callback) {
     callback_ = callback;
-    return WEBRTC_VIDEO_CODEC_OK;
+    return webrtc::kVideoCodecOk;
 }
 
 int32_t V4L2H264Encoder::Release() {
     encoder_.reset();
-    return WEBRTC_VIDEO_CODEC_OK;
+    return webrtc::kVideoCodecOk;
 }
 
 int32_t V4L2H264Encoder::Encode(const webrtc::VideoFrame &frame,
@@ -47,7 +51,7 @@ int32_t V4L2H264Encoder::Encode(const webrtc::VideoFrame &frame,
         if ((*frame_types)[0] == webrtc::VideoFrameType::kVideoFrameKey) {
             V4L2Util::SetExtCtrl(encoder_->GetFd(), V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME, 1);
         } else if ((*frame_types)[0] == webrtc::VideoFrameType::kEmptyFrame) {
-            return WEBRTC_VIDEO_CODEC_OK;
+            return webrtc::kVideoCodecOk;
         }
     }
 
@@ -71,7 +75,7 @@ int32_t V4L2H264Encoder::Encode(const webrtc::VideoFrame &frame,
         SendFrame(frame, encoded_buffer);
     });
 
-    return WEBRTC_VIDEO_CODEC_OK;
+    return webrtc::kVideoCodecOk;
 }
 
 void V4L2H264Encoder::SetRates(const RateControlParameters &parameters) {
@@ -104,7 +108,7 @@ void V4L2H264Encoder::SendFrame(const webrtc::VideoFrame &frame, V4L2Buffer &enc
         webrtc::H264PacketizationMode::NonInterleaved;
 
     encoded_image_.SetEncodedData(encoded_image_buffer);
-    encoded_image_.SetTimestamp(frame.timestamp());
+    encoded_image_.SetRtpTimestamp(frame.timestamp_us());
     encoded_image_.SetColorSpace(frame.color_space());
     encoded_image_._encodedWidth = width_;
     encoded_image_._encodedHeight = height_;

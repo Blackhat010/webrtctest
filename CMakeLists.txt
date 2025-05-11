@@ -42,7 +42,7 @@ add_compile_definitions(
 
 add_compile_options(
     -pipe
-    -fdeclspec
+    -fPIC
 )
 
 include_directories(
