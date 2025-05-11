@@ -10,6 +10,28 @@
 #include <third_party/libyuv/include/libyuv.h>
 
 #include "common/logging.h"
+#include "common/v4l2_utils.h"
+
+// Add missing V4L2 control definitions
+#ifndef V4L2_CID_AUTO_GAIN
+#define V4L2_CID_AUTO_GAIN (V4L2_CID_CAMERA_CLASS_BASE + 32)
+#endif
+
+#ifndef V4L2_CID_GAIN
+#define V4L2_CID_GAIN (V4L2_CID_CAMERA_CLASS_BASE + 33)
+#endif
+
+#ifndef V4L2_CID_EXPOSURE_AUTO
+#define V4L2_CID_EXPOSURE_AUTO (V4L2_CID_CAMERA_CLASS_BASE + 34)
+#endif
+
+#ifndef V4L2_CID_EXPOSURE_ABSOLUTE
+#define V4L2_CID_EXPOSURE_ABSOLUTE (V4L2_CID_CAMERA_CLASS_BASE + 35)
+#endif
+
+#ifndef V4L2_CID_POWER_LINE_FREQUENCY
+#define V4L2_CID_POWER_LINE_FREQUENCY (V4L2_CID_CAMERA_CLASS_BASE + 36)
+#endif
 
 std::shared_ptr<V4L2Capturer> V4L2Capturer::Create(Args args) {
     auto ptr = std::make_shared<V4L2Capturer>(args);
