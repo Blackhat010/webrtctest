@@ -16,19 +16,19 @@ std::shared_ptr<V4L2Capturer> V4L2Capturer::Create(Args args) {
     ptr->Init(args.cameraId);
 
     if (args.format == V4L2_PIX_FMT_H264) {
-        ptr->SetControls(V4L2_CID_MPEG_VIDEO_BITRATE_MODE, V4L2_MPEG_VIDEO_BITRATE_MODE_VBR)
+        ptr->SetControls(V4L2_CID_MPEG_VIDEO_BITRATE_MODE, V4L2_MPEG_VIDEO_BITRATE_MODE_CBR)
             .SetControls(V4L2_CID_MPEG_VIDEO_H264_PROFILE, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)
             .SetControls(V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER, true)
-            .SetControls(V4L2_CID_MPEG_VIDEO_H264_LEVEL, V4L2_MPEG_VIDEO_H264_LEVEL_4_0)
-            .SetControls(V4L2_CID_MPEG_VIDEO_H264_I_PERIOD, 60) /* trick */
+            .SetControls(V4L2_CID_MPEG_VIDEO_H264_LEVEL, V4L2_MPEG_VIDEO_H264_LEVEL_4_2)
+            .SetControls(V4L2_CID_MPEG_VIDEO_H264_I_PERIOD, 30)
             .SetControls(V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME, 1)
-            .SetControls(V4L2_CID_MPEG_VIDEO_BITRATE, 2500 * 1000);
+            .SetControls(V4L2_CID_MPEG_VIDEO_BITRATE, 4000 * 1000);
     }
 
     ptr->SetFps(args.fps)
         .SetRotation(args.rotation)
         .SetResolution(args.width, args.height)
-        .SetControls(V4L2_CID_MPEG_VIDEO_BITRATE, 10000 * 1000)
+        .SetControls(V4L2_CID_MPEG_VIDEO_BITRATE, 40000 * 1000)
         .StartCapture();
     return ptr;
 }

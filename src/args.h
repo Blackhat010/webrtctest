@@ -50,8 +50,8 @@ struct Args {
     // video input
     int cameraId = 0;
     int fps = 30;
-    int width = 1280;
-    int height = 720;
+    int width = 1920;
+    int height = 1080;
     int rotation = 0;
     bool use_libcamera = false;
     uint32_t format = V4L2_PIX_FMT_YUV420;
@@ -63,10 +63,10 @@ struct Args {
     bool no_audio = false;
 
     // libcamera control options
-    float sharpness = 2.0f;
-    float contrast = 2.0f;
-    float brightness = 0.1f;
-    float saturation = 2.0f;
+    float sharpness = 1.5f;
+    float contrast = 1.2f;
+    float brightness = 0.0f;
+    float saturation = 1.0f;
     float ev = 0.0f;
     std::string shutter_ = "0";
     TimeVal<std::chrono::microseconds> shutter;

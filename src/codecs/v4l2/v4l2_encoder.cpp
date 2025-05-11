@@ -3,7 +3,7 @@
 
 const char *ENCODER_FILE = "/dev/video11";
 const int BUFFER_NUM = 4;
-const int KEY_FRAME_INTERVAL = 600;
+const int KEY_FRAME_INTERVAL = 30;
 
 std::unique_ptr<V4L2Encoder> V4L2Encoder::Create(int width, int height, bool is_dma_src) {
     auto encoder = std::make_unique<V4L2Encoder>();
@@ -15,7 +15,7 @@ std::unique_ptr<V4L2Encoder> V4L2Encoder::Create(int width, int height, bool is_
 V4L2Encoder::V4L2Encoder()
     : V4L2Codec(),
       framerate_(30),
-      bitrate_bps_(20000000) {}
+      bitrate_bps_(40000000) {}
 
 bool V4L2Encoder::Configure(int width, int height, bool is_dma_src) {
     if (!Open(ENCODER_FILE)) {
@@ -25,8 +25,8 @@ bool V4L2Encoder::Configure(int width, int height, bool is_dma_src) {
 
     V4L2Util::SetExtCtrl(fd_, V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER, true);
     V4L2Util::SetExtCtrl(fd_, V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-                         V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE);
-    V4L2Util::SetExtCtrl(fd_, V4L2_CID_MPEG_VIDEO_H264_LEVEL, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
+                         V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
+    V4L2Util::SetExtCtrl(fd_, V4L2_CID_MPEG_VIDEO_H264_LEVEL, V4L2_MPEG_VIDEO_H264_LEVEL_4_2);
     V4L2Util::SetExtCtrl(fd_, V4L2_CID_MPEG_VIDEO_H264_I_PERIOD, KEY_FRAME_INTERVAL);
 
     auto src_memory = is_dma_src ? V4L2_MEMORY_DMABUF : V4L2_MEMORY_MMAP;
