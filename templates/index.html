@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Camera</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .camera-feed {
+            margin: 10px;
+        }
+        h2 {
+            color: #333;
+        }
+        img {
+            max-width: 100%;
+            border: 1px solid #ddd;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Document Reading Camera</h1>
+    
+    <div class="container">
+        <div class="camera-feed">
+            <h2>Enhanced View (for Documents)</h2>
+            <img src="{{ url_for('video_feed') }}" width="640" height="480">
+        </div>
+        
+        <div class="camera-feed">
+            <h2>Original View</h2>
+            <img src="{{ url_for('original_feed') }}" width="640" height="480">
+        </div>
+    </div>
+    
+    <div class="controls">
+        <p>Compare the enhanced view (left) with the original view (right) to see which works better for your documents.</p>
+    </div>
+</body>
+</html>
