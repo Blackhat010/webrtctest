@@ -71,7 +71,7 @@ struct Args {
     std::string shutter_ = "0";
     TimeVal<std::chrono::microseconds> shutter;
     float gain = 0.0f;
-    std::string ae_metering = "centre";
+    std::string ae_metering = "average";
     int ae_metering_mode = 0;
     std::string exposure = "normal";
     int ae_mode = 0;

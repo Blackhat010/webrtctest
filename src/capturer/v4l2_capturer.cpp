@@ -22,7 +22,12 @@ std::shared_ptr<V4L2Capturer> V4L2Capturer::Create(Args args) {
             .SetControls(V4L2_CID_MPEG_VIDEO_H264_LEVEL, V4L2_MPEG_VIDEO_H264_LEVEL_4_2)
             .SetControls(V4L2_CID_MPEG_VIDEO_H264_I_PERIOD, 30)
             .SetControls(V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME, 1)
-            .SetControls(V4L2_CID_MPEG_VIDEO_BITRATE, 4000 * 1000);
+            .SetControls(V4L2_CID_MPEG_VIDEO_BITRATE, 4000 * 1000)
+            .SetControls(V4L2_CID_POWER_LINE_FREQUENCY, V4L2_CID_POWER_LINE_FREQUENCY_50HZ)
+            .SetControls(V4L2_CID_EXPOSURE_AUTO, V4L2_EXPOSURE_AUTO)
+            .SetControls(V4L2_CID_EXPOSURE_ABSOLUTE, 1000)
+            .SetControls(V4L2_CID_GAIN, 0)
+            .SetControls(V4L2_CID_AUTO_GAIN, 1);
     }
 
     ptr->SetFps(args.fps)
