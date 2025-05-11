@@ -1,7 +1,7 @@
 #include "codecs/v4l2/v4l2_encoder.h"
 #include "common/logging.h"
 
-const char *ENCODER_FILE = "/dev/video11";
+const char* ENCODER_FILE = "/dev/video11";
 const int BUFFER_NUM = 4;
 const int KEY_FRAME_INTERVAL = 30;
 
